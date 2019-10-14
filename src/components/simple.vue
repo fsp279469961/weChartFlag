@@ -2,17 +2,20 @@
  * @Author: fangsp
  * @Date: 2019-10-13 16:11:28
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-10-13 17:04:57
+ * @Last Modified time: 2019-10-13 17:15:02
  */
 <template>
   <div>
     <input type="file" @change="fileChange($event)">
+    <!-- 截屏区域 -->
     <div id="myCanvas" class="fd-myCanvas">
+      <!-- 头像 -->
       <img id="picture" :src="ylUrl" class="fd-picture" alt="">
-      <img src="../assets/redQ.jpeg" alt="" v-show="ylUrl" class="fd-redQ" :style="styleObject">
+      <!-- 小红旗 -->
+      <img src="../assets/redQ.jpeg" alt="" class="fd-redQ" v-show="ylUrl" :style="styleObject">
     </div>
-    <div id="myCanvasCopy" class="fd-myCanvasCopy" :style="styleObjectCopy"></div>
     <div>
+      <!-- 最终合成的图片 -->
       <img :src="canvasUrl" alt="">
     </div>
   </div>
@@ -21,13 +24,12 @@
 <script>
 import html2canvas from 'html2canvas'
 export default {
-  name: 'HelloWorld',
+  name: 'simple',
   data () {
     return {
       canvasUrl: '',
       ylUrl: '',
-      styleObject: {},
-      styleObjectCopy: {}
+      styleObject: {}
     }
   },
   methods: {
@@ -37,7 +39,6 @@ export default {
       let width = contentHtml.offsetWidth
       let height = contentHtml.offsetHeight
       var opts = {
-        allowTaint: true, // 允许加载跨域的图片
         width: width, // dom 原始宽度
         height: height // dom 原始高度
       }
@@ -56,13 +57,10 @@ export default {
           let picture = document.getElementById('myCanvas')
           let width = picture.offsetWidth / 4
           let height = picture.offsetHeight / 4
+          // 设置小红旗的大小和位置，以便保持小红旗在头像的右下角
           _this.styleObject = {
             width: width + 'px',
             height: height + 'px'
-          }
-          _this.styleObjectCopy = {
-            width: picture.offsetWidth + 'px',
-            height: picture.offsetHeight + 'px'
           }
           _this.$nextTick(() => {
             _this.toCanvas()
@@ -87,17 +85,9 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  z-index: -1;
 }
 .fd-picture {
   max-width: 200px;
   max-height: 200px;
-}
-.fd-myCanvasCopy {
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: #fff;
-  z-index: -1;
 }
 </style>
